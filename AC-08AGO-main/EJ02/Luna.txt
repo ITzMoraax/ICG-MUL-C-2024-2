@@ -1,0 +1,8 @@
+<svg width="500" height="500" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fondo oscuro grande que representa la noche -->
+        <rect x="-1" y="0" width="800" height="800" fill="#222" />
+        <!-- Círculo que crea la ilusión de una luna  -->
+        <circle cx="110" cy="100" r="50" fill="#f4f4f4" />
+        <!-- Círculo oscuro grande que representa la ilusión de noche -->
+        <circle cx="140" cy="100" r="50" fill="#222" />              
+   </svg>
