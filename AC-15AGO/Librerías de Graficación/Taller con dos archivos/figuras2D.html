@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trazo de Figuras</title>
+    <style>
+        #canvas-container {
+            border: 1px solid #000;
+            width: 400px;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trazo de Figuras</h1>
+    <form id="figuraForm">
+        <label for="figura">Seleccionar Figura Geométrica:</label>
+        <select id="figura" name="figura">
+            <option value="circulo">Círculo</option>
+            <option value="cuadrado">Cuadrado</option>
+            <option value="triangulo">Triángulo</option>
+        </select>
+        <br><br>
+
+        <label for="coordenadas">Sistema de Coordenadas:</label>
+        <select id="coordenadas" name="coordenadas">
+            <option value="cartesianas">Cartesianas</option>
+            <option value="polares">Polares</option>
+        </select>
+        <br><br>
+
+        <div id="coordenadas-inputs">
+            <!-- Inputs para coordenadas cartesianas o polares se agregarán aquí -->
+        </div>
+        <br>
+
+        <button type="button" onclick="dibujar()">Dibujar</button>
+    </form>
+    
+    <div id="canvas-container">
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
