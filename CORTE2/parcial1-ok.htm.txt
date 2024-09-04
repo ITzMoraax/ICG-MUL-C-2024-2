@@ -15,8 +15,13 @@
     <form id="formulario">
         <label for="lados">Número de lados:</label>
         <input type="number" id="lados" min="3" required><br>
-        <label for="apotema">Apotema:</label>
-        <input type="number" id="apotema" min="1" required><br>
+        <label for="opcion">Escoja la opción:</label>
+        <select id="opcion">
+            <option value="apotema">Apotema</option>
+            <option value="lado">Lado</option>
+        </select><br>
+        <label for="valor">Valor (Apotema o Lado):</label>
+        <input type="number" id="valor" min="1" required><br>
         <label for="centroX">Coordenada X del centro:</label>
         <input type="number" id="centroX" required><br>
         <label for="centroY">Coordenada Y del centro:</label>
@@ -25,6 +30,8 @@
     </form>
     <canvas id="canvas" width="600" height="600"></canvas>
     <div id="coordenadas"></div>
-    <script src="script.js"></script>
+
+    <!-- Enlace al archivo JavaScript -->
+    <script src="parcial1-ok.js"></script>
 </body>
 </html>
