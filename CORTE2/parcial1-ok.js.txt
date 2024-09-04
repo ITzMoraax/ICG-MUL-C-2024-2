@@ -1,34 +1,85 @@
 // Clases para coordenadas
 class Cartesiana {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
+    }
+
+    get x() {
+        return this._x;
+    }
+
+    get y() {
+        return this._y;
+    }
+
+    set x(value) {
+        this._x = value;
+    }
+
+    set y(value) {
+        this._y = value;
+    }
+
+    // Método para convertir a coordenadas polares
+    toPolar() {
+        const r = Math.sqrt(this._x ** 2 + this._y ** 2);
+        const theta = Math.atan2(this._y, this._x);
+        return new Polar(r, theta);
     }
 }
 
 class Polar {
     constructor(r, theta) {
-        this.r = r; // Radio o apotema
-        this.theta = theta; // Ángulo en radianes
+        this._r = r;
+        this._theta = theta;
+    }
+
+    get r() {
+        return this._r;
+    }
+
+    get theta() {
+        return this._theta;
+    }
+
+    set r(value) {
+        this._r = value;
+    }
+
+    set theta(value) {
+        this._theta = value;
+    }
+
+    // Método para convertir a coordenadas cartesianas
+    toCartesiana() {
+        const x = this._r * Math.cos(this._theta);
+        const y = this._r * Math.sin(this._theta);
+        return new Cartesiana(x, y);
     }
 }
 
-// Función para convertir coordenadas cartesianas a polares
-function Cart2Pol(cartesiana) {
-    const r = Math.sqrt(cartesiana.x ** 2 + cartesiana.y ** 2);
-    const theta = Math.atan2(cartesiana.y, cartesiana.x);
-    return new Polar(r, theta);
+// Función para calcular la longitud del lado a partir del apotema
+function calcularLadoDesdeApotema(lados, apotema) {
+    return 2 * apotema * Math.tan(Math.PI / lados);
 }
 
-// Función para convertir coordenadas polares a cartesianas
-function Pol2Cart(polar) {
-    const x = polar.r * Math.cos(polar.theta);
-    const y = polar.r * Math.sin(polar.theta);
-    return new Cartesiana(x, y);
+// Función para calcular el apotema a partir de la longitud del lado
+function calcularApotemaDesdeLado(lados, lado) {
+    return lado / (2 * Math.tan(Math.PI / lados));
 }
 
 // Función para calcular los vértices del polígono
-function calcularVertices(lados, apotema, centroX, centroY) {
+function calcularVertices(lados, valor, centroX, centroY, usarApotema) {
+    let apotema, lado;
+    if (usarApotema) {
+        apotema = valor;
+        lado = calcularLadoDesdeApotema(lados, apotema);
+    } else {
+        lado = valor;
+        apotema = calcularApotemaDesdeLado(lados, lado);
+    }
+
     const vertices = [];
     const angulo = (2 * Math.PI) / lados;
 
@@ -42,8 +93,34 @@ function calcularVertices(lados, apotema, centroX, centroY) {
     return vertices;
 }
 
+// Función para generar el polígono
+function poligono(lados, valor, centroX, centroY, usarApotema) {
+    const vertices = calcularVertices(lados, valor, centroX, centroY, usarApotema);
+    return rotarPoligono(vertices);
+}
+
+// Función para rotar el polígono y asegurar que tenga una base recta
+function rotarPoligono(vertices) {
+    const ladoBase = Math.atan2(vertices[1].y - vertices[0].y, vertices[1].x - vertices[0].x);
+    const anguloRotacion = -ladoBase;
+    const centro = vertices.reduce((acc, vertice) => {
+        acc.x += vertice.x / vertices.length;
+        acc.y += vertice.y / vertices.length;
+        return acc;
+    }, new Cartesiana(0, 0));
+
+    return vertices.map(vertice => {
+        const xCentrado = vertice.x - centro.x;
+        const yCentrado = vertice.y - centro.y;
+        const polar = new Cartesiana(xCentrado, yCentrado).toPolar();
+        polar.theta += anguloRotacion;
+        const rotado = polar.toCartesiana();
+        return new Cartesiana(rotado.x + centro.x, rotado.y + centro.y);
+    });
+}
+
 // Función para dibujar el polígono
-function dibujarPoligono(lados, apotema, centroX, centroY) {
+function dibujarPoligono(lados, valor, centroX, centroY, usarApotema) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const anchoCanvas = canvas.width;
@@ -52,8 +129,8 @@ function dibujarPoligono(lados, apotema, centroX, centroY) {
     // Borrar el canvas
     ctx.clearRect(0, 0, anchoCanvas, altoCanvas);
 
-    // Calcular vértices
-    const vertices = calcularVertices(lados, apotema, centroX, centroY);
+    // Generar y rotar polígono
+    const vertices = poligono(lados, valor, centroX, centroY, usarApotema);
 
     // Mostrar coordenadas en el HTML
     const coordenadasDiv = document.getElementById('coordenadas');
@@ -76,14 +153,16 @@ function dibujarPoligono(lados, apotema, centroX, centroY) {
 // Función para actualizar el polígono basado en los datos del formulario
 function actualizarPoligono() {
     const lados = parseInt(document.getElementById('lados').value);
-    const apotema = parseFloat(document.getElementById('apotema').value);
+    const valor = parseFloat(document.getElementById('valor').value);
+    const opcion = document.getElementById('opcion').value;
     const centroX = parseFloat(document.getElementById('centroX').value);
     const centroY = parseFloat(document.getElementById('centroY').value);
 
-    if (isNaN(lados) || isNaN(apotema) || isNaN(centroX) || isNaN(centroY)) {
+    if (isNaN(lados) || isNaN(valor) || isNaN(centroX) || isNaN(centroY)) {
         alert("Por favor, ingrese todos los valores correctamente.");
         return;
     }
 
-    dibujarPoligono(lados, apotema, centroX, centroY);
+    const usarApotema = (opcion === 'apotema');
+    dibujarPoligono(lados, valor, centroX, centroY, usarApotema);
 }
