@@ -1,1 +1,30 @@
-<html><head></head><body style="overflow-wrap: break-word; -webkit-nbsp-mode: space; line-break: after-white-space;"><div>&lt;!DOCTYPE html&gt;</div><div>&lt;html lang="es"&gt;</div><div>&lt;head&gt;</div><div>&nbsp; &nbsp; &lt;meta charset="UTF-8"&gt;</div><div>&nbsp; &nbsp; &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</div><div>&nbsp; &nbsp; &lt;title&gt;Polígono en Canvas&lt;/title&gt;</div><div>&nbsp; &nbsp; &lt;style&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; canvas {</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: 1px solid black;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; }</div><div>&nbsp; &nbsp; &lt;/style&gt;</div><div>&lt;/head&gt;</div><div>&lt;body&gt;</div><div>&nbsp; &nbsp; &lt;h1&gt;Dibujar Polígono&lt;/h1&gt;</div><div>&nbsp; &nbsp; &lt;form id="formulario"&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;label for="lados"&gt;Número de lados:&lt;/label&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type="number" id="lados" min="3" required&gt;&lt;br&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;label for="apotema"&gt;Apotema:&lt;/label&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type="number" id="apotema" min="1" required&gt;&lt;br&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;label for="centroX"&gt;Coordenada X del centro:&lt;/label&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type="number" id="centroX" required&gt;&lt;br&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;label for="centroY"&gt;Coordenada Y del centro:&lt;/label&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type="number" id="centroY" required&gt;&lt;br&gt;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &lt;button type="button" onclick="actualizarPoligono()"&gt;Dibujar Polígono&lt;/button&gt;</div><div>&nbsp; &nbsp; &lt;/form&gt;</div><div>&nbsp; &nbsp; &lt;canvas id="canvas" width="600" height="600"&gt;&lt;/canvas&gt;</div><div>&nbsp; &nbsp; &lt;div id="coordenadas"&gt;&lt;/div&gt;</div><div>&nbsp; &nbsp; &lt;script src="script.js"&gt;&lt;/script&gt;</div><div>&lt;/body&gt;</div><div>&lt;/html&gt;</div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polígono en Canvas</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dibujar Polígono</h1>
+    <form id="formulario">
+        <label for="lados">Número de lados:</label>
+        <input type="number" id="lados" min="3" required><br>
+        <label for="apotema">Apotema:</label>
+        <input type="number" id="apotema" min="1" required><br>
+        <label for="centroX">Coordenada X del centro:</label>
+        <input type="number" id="centroX" required><br>
+        <label for="centroY">Coordenada Y del centro:</label>
+        <input type="number" id="centroY" required><br>
+        <button type="button" onclick="actualizarPoligono()">Dibujar Polígono</button>
+    </form>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <div id="coordenadas"></div>
+    <script src="script.js"></script>
+</body>
+</html>
