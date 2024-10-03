@@ -16,7 +16,7 @@ class Punto {
     }
 }
 
-// Genera puntos aleatorios
+// Función para generar puntos aleatorios
 function generarPuntosAleatorios(n, maxX, maxY) {
     const puntos = [];
     for (let i = 0; i < n; i++) {
@@ -27,7 +27,7 @@ function generarPuntosAleatorios(n, maxX, maxY) {
     return puntos;
 }
 
-// Calcula el centroide
+// Función para calcular el centroide
 function calcularCentroide(puntos) {
     let xSum = 0, ySum = 0;
     puntos.forEach(punto => {
@@ -37,7 +37,7 @@ function calcularCentroide(puntos) {
     return new Punto(xSum / puntos.length, ySum / puntos.length);
 }
 
-// Ordena puntos alrededor del centroide
+// Función para ordenar puntos alrededor del centroide
 function ordenarPuntos(puntos) {
     const centroide = calcularCentroide(puntos);
     return puntos.sort((a, b) => {
@@ -47,22 +47,21 @@ function ordenarPuntos(puntos) {
     });
 }
 
-// Dibuja el polígono en SVG
-function dibujarPoligono(svg, puntos) {
-    let pathData = `M ${puntos[0].getX()} ${puntos[0].getY()} `;
+// Función para dibujar el polígono
+function dibujarPoligono(ctx, puntos) {
+    ctx.beginPath();
+    ctx.moveTo(puntos[0].getX(), puntos[0].getY());
     for (let i = 1; i < puntos.length; i++) {
-        pathData += `L ${puntos[i].getX()} ${puntos[i].getY()} `;
+        ctx.lineTo(puntos[i].getX(), puntos[i].getY());
     }
-    pathData += 'Z'; // Cierra el polígono
-
-    const polygon = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    polygon.setAttribute("d", pathData);
-    polygon.setAttribute("fill", "rgba(0, 150, 255, 0.5)");
-    polygon.setAttribute("stroke", "black");
-    svg.appendChild(polygon);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+    ctx.fill();
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
 }
 
-// Determina si el polígono es cóncavo o convexo
+// Función para determinar si el polígono es cóncavo o convexo
 function esConvexo(puntos) {
     let signo = 0;
     const n = puntos.length;
@@ -86,11 +85,12 @@ function esConvexo(puntos) {
     return true; // Convexo
 }
 
-const svg = document.getElementById('svg');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-const puntos = generarPuntosAleatorios(5, svg.width.baseVal.value, svg.height.baseVal.value);
+const puntos = generarPuntosAleatorios(5, canvas.width, canvas.height);
 const puntosOrdenados = ordenarPuntos(puntos);
-dibujarPoligono(svg, puntosOrdenados);
+dibujarPoligono(ctx, puntosOrdenados);
 
 const tipo = esConvexo(puntosOrdenados) ? "Convexo" : "Cóncavo";
 console.log(`El polígono es: ${tipo}`);
